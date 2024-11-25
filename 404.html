@@ -2,6 +2,14 @@
     document.addEventListener('DOMContentLoaded', function() {
         async function fetchAndRedirect(url, redirectDomain) {
             console.log("Loaded",  window.location.href)
+            let text = window.location.href
+            let regex1 = RegExp('\/([^\/]+)\/([^\/]+.*)', 'g');
+            let redirect = ""
+            while ((res = regex1.exec(text)) !== null) {
+                console.log(res[2]);
+                redirect = new URL(['https://mods.beatbanger.com/', res[2]].join(""))
+            }
+            console.log(redirect.href)
         }
 
         // Call the function when the page loads
@@ -11,13 +19,13 @@
 
 <head>
     <link
-        href="css/stylesheet.css"
+        href="/css/stylesheet.css"
         rel="stylesheet"
         type="text/css"
     ></link>
 
     <link
-        href="css/bootstrap.css"
+        href="/css/bootstrap.css"
         rel="stylesheet"
         type="text/css"
     ></link>
