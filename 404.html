@@ -1,19 +1,34 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        async function fetchAndRedirect(url, redirectDomain) {
-            console.log("Loaded",  window.location.href)
+        async function fetchAndRedirect(redirectDomain) {
+            console.log("Loaded", redirectDomain,  window.location.href)
             let text = window.location.href
             let regex1 = RegExp('\/([^\/]+)\/([^\/]+.*)', 'g');
             let redirect = ""
             while ((res = regex1.exec(text)) !== null) {
                 console.log(res[2]);
-                redirect = new URL(['https://mods.beatbanger.com/', res[2]].join(""))
+                redirect = new URL([redirectDomain, res[2]].join(""))
             }
             console.log(redirect.href)
-        }
 
+            // Create a new meta element
+            const metaRefresh = document.createElement('meta');
+
+            // Set the http-equiv and content attributes
+            metaRefresh.setAttribute('http-equiv', 'refresh');
+            metaRefresh.setAttribute('content', '5; url=' + redirect.href);
+
+            // Append the meta element to the head section
+            document.head.appendChild(metaRefresh);
+
+            const redirectText = document.getElementById('redirect-text');
+            redirectText.innerHTML = `
+            bbooru is now
+
+            <a href="https://mods.beatbanger.com/">https://mods.beatbanger.com/</a>, redirecting you to <a href="${redirect.href}"/>${redirect.href}</a> shortly!`;
+        }
         // Call the function when the page loads
-        fetchAndRedirect("https://newdomain.com");
+        fetchAndRedirect("https://mods.beatbanger.com/");
     });
 </script>
 
@@ -30,6 +45,55 @@
         type="text/css"
     ></link>
 </head>
-<body>
-test
+<html>
+<head>
+    <link
+        href="/css/stylesheet.css"
+        rel="stylesheet"
+        type="text/css"
+    ></link>
+
+    <link
+        href="/css/bootstrap.css"
+        rel="stylesheet"
+        type="text/css"
+    ></link>
+</head>
+
+<body class="darktheme">
+    <div id="content-holder">
+        <title>Redirecting...</title>
+
+        <link
+            rel="canonical"
+            href="https://mods.beatbanger.com/"
+        ></link>
+
+        <meta charset="utf-8"></meta>
+        <div class="headerWrapper text-center">
+            <div class="header mx-4 px-5">
+                <a href="./">
+                    <img
+                        class="col"
+                        alt="logo"
+                        src="img/logo.png"
+                    >
+
+                    <h1 class="d-inline align-middle col-auto text-left">Beat Banger Mod Catalogue</h1>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="text-center m-2">
+                <p id="redirect-text">
+                    bbooru is now
+
+                    <a href="https://mods.beatbanger.com/">https://mods.beatbanger.com/</a>
+                </p>
+            </div>
+        </div>
+    </div>
 </body>
+</html>
